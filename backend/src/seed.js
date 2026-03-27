@@ -993,4 +993,4 @@ async function run() {
   console.log('   Demo:    demo@kurdolingo.de   /  demo123\n');
 }
 
-run().catch(e => { console.error('Seed-Fehler:', e); process.exit(1); });
+run().catch(e => { console.error('Seed-Fehler:', e); });
