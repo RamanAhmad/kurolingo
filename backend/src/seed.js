@@ -13,10 +13,10 @@ const { initDB, getDB, saveToDisk } = require('./db');
 const bcrypt = require('bcryptjs');
 const { v4: uuid } = require('uuid');
 
-async function run() {
+async function run(existingDb) {
   console.log('\n🌱 Kurdolingo Seed startet…\n');
-  await initDB();
-  const db = getDB();
+  if (!existingDb) await initDB();
+  const db = existingDb || getDB();
 
   // ── Wipe ──────────────────────────────────────────────────────────────────
   db.exec(`

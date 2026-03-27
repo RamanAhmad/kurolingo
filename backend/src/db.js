@@ -468,7 +468,7 @@ async function autoSeedIfEmpty() {
 
     console.log('\n📦  Datenbank leer — lade vollständige Demo-Daten…');
     const seedModule = require('./seed');
-    await seedModule.run();
+    await seedModule.run(db);  // db übergeben → kein zweites initDB()
     console.log('✓  Demo-Daten vollständig geladen\n');
   } catch (err) {
     console.warn('[autoSeed] Fehler:', err.message);
