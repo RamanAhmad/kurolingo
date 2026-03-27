@@ -53,8 +53,8 @@ ENV PORT=4000
 EXPOSE 4000
 
 # Healthcheck
-HEALTHCHECK --interval=30s --timeout=10s --start-period=15s --retries=5 \
-  CMD wget --quiet --tries=1 --spider http://localhost:$PORT/api/health || exit 1
+#HEALTHCHECK --interval=30s --timeout=10s --start-period=15s --retries=5 \
+#  CMD wget --quiet --tries=1 --spider http://localhost:$PORT/api/health || exit 1
 
 # Start backend
 CMD ["node", "backend/src/index.js"]
