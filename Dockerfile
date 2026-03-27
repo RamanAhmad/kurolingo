@@ -11,7 +11,7 @@ FROM node:22-alpine AS builder
 
 WORKDIR /build
 
-# Install frontend deps (npm install instead of npm ci — no lockfile required)
+# Copy frontend package files and install dependencies
 COPY frontend/package*.json ./frontend/
 RUN cd frontend && npm install
 
@@ -29,30 +29,32 @@ RUN addgroup -g 1001 kurdolingo && \
 
 WORKDIR /app
 
-# Install backend deps (npm install instead of npm ci — no lockfile required)
+# Copy backend package files and install dependencies
 COPY backend/package*.json ./backend/
 RUN cd backend && npm install --omit=dev
 
 # Copy backend source
-COPY backend/src/ ./backend/src/
-COPY backend/.env.example ./backend/.env.example
+COPY backend/ ./backend/
 
 # Copy built frontend from builder stage
 COPY --from=builder /build/frontend/dist ./frontend/dist
 
-# Create upload directories
+# Create upload directories and set permissions
 RUN mkdir -p ./backend/uploads/audio ./backend/uploads/images && \
     chown -R kurdolingo:kurdolingo /app
 
 # Switch to non-root
 USER kurdolingo
 
-# Health check
-HEALTHCHECK --interval=30s --timeout=10s --start-period=15s --retries=3 \
-  CMD node -e "require('http').get('http://localhost:4000/api/health', r => process.exit(r.statusCode === 200 ? 0 : 1)).on('error', () => process.exit(1))"
+# Environment
+ENV NODE_ENV=production
+ENV PORT=4000
 
 EXPOSE 4000
 
-ENV NODE_ENV=production
+# Healthcheck
+HEALTHCHECK --interval=30s --timeout=10s --start-period=15s --retries=5 \
+  CMD wget --quiet --tries=1 --spider http://localhost:$PORT/api/health || exit 1
 
+# Start backend
 CMD ["node", "backend/src/index.js"]
