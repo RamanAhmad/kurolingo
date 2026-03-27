@@ -48,7 +48,7 @@ USER kurdolingo
 
 # Environment
 ENV NODE_ENV=production
-# ENV PORT=4000
+ENV PORT=4000
 
 EXPOSE 4000
 

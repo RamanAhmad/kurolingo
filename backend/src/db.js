@@ -458,35 +458,22 @@ async function initDB() {
 // ── Auto-Seed: Demo & Admin anlegen wenn DB komplett leer ─────────────────────
 // Läuft nach initDB() — prüft ob users-Tabelle leer ist und legt
 // Demo/Admin-User an damit der Login-Hinweis im Dev-Modus sofort funktioniert.
-// Vollständige Kurs-Daten: node src/seed.js
+
+// Auto-Seed: Komplette Demo-Daten beim ersten Start automatisch laden
 async function autoSeedIfEmpty() {
   try {
     const db  = getDB();
     const row = db.prepare('SELECT COUNT(*) AS n FROM users').get();
     if (row && row.n > 0) return; // Bereits Daten vorhanden
 
-    const bcrypt = require('bcryptjs');
-    const { v4: uuidv4 } = require('uuid');
-
-    console.log('\n📦  Datenbank leer — lege Demo-Accounts an…');
-
-    db.prepare(`INSERT INTO users (id,email,name,password,role,streak,total_xp,gems,hearts,level)
-      VALUES (?,?,?,?,'admin',21,12400,2800,5,22)`)
-      .run(uuidv4(), 'admin@kurdolingo.de', 'Admin', bcrypt.hashSync('admin123', 10));
-
-    db.prepare(`INSERT INTO users (id,email,name,password,role,streak,total_xp,gems,hearts,level)
-      VALUES (?,?,?,?,'user',5,680,310,5,4)`)
-      .run(uuidv4(), 'demo@kurdolingo.de', 'Demo Lerner', bcrypt.hashSync('demo123', 10));
-
-    saveToDisk();
-    console.log('   ✓  admin@kurdolingo.de  /  admin123');
-    console.log('   ✓  demo@kurdolingo.de   /  demo123');
-    console.log('   Tipp: node src/seed.js für vollständige Kursdaten\n');
+    console.log('\n📦  Datenbank leer — lade vollständige Demo-Daten…');
+    const seedModule = require('./seed');
+    await seedModule.run();
+    console.log('✓  Demo-Daten vollständig geladen\n');
   } catch (err) {
     console.warn('[autoSeed] Fehler:', err.message);
   }
 }
-
 const _origInitDB = initDB;
 async function initDBWithSeed() {
   const db = await _origInitDB();

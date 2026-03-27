@@ -993,4 +993,10 @@ async function run() {
   console.log('   Demo:    demo@kurdolingo.de   /  demo123\n');
 }
 
-run().catch(e => { console.error('Seed-Fehler:', e); });
+// Als Skript direkt ausführbar: node src/seed.js
+// Als Modul importierbar: require('./seed').run()
+if (require.main === module) {
+  run().catch(e => { console.error('Seed-Fehler:', e); process.exit(1); });
+}
+
+module.exports = { run };
