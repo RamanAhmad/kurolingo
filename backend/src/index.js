@@ -114,8 +114,18 @@ app.use((err, _req, res, _next) => {
   });
 });
 
-// ── Start: erst DB, dann Server ───────────────────────────────────────────────
+// ── Start: erst DB, dann Seed-Check, dann Server ─────────────────────────────
 initDB()
+  .then(async () => {
+    const { getDB }   = require('./db');
+    const { seedDB }  = require('./seed');
+    const db          = getDB();
+    const row         = db.prepare('SELECT COUNT(*) AS n FROM language_pairs').get();
+    if (!row || row.n === 0) {
+      console.log('📦  Datenbank leer — lade Kursdaten (Seed)…');
+      await seedDB();
+    }
+  })
   .then(() => {
     app.listen(PORT, '0.0.0.0', () => {
       console.log(`\n🦅  Kurdolingo API  →  http://localhost:${PORT}`);

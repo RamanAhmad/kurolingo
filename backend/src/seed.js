@@ -13,9 +13,12 @@ const { initDB, getDB, saveToDisk } = require('./db');
 const bcrypt = require('bcryptjs');
 const { v4: uuid } = require('uuid');
 
-async function run() {
+/**
+ * seedDB() — Führt den Seed ohne initDB() aus (DB muss bereits initialisiert sein).
+ * Wird von index.js aufgerufen wenn die language_pairs-Tabelle leer ist.
+ */
+async function seedDB() {
   console.log('\n🌱 Kurdolingo Seed startet…\n');
-  await initDB();
   const db = getDB();
 
   // ── Wipe ──────────────────────────────────────────────────────────────────
@@ -993,4 +996,14 @@ async function run() {
   console.log('   Demo:    demo@kurdolingo.de   /  demo123\n');
 }
 
-run().catch(e => { console.error('Seed-Fehler:', e); });
+// Standalone-Ausführung: node src/seed.js
+async function run() {
+  await initDB();
+  await seedDB();
+}
+
+if (require.main === module) {
+  run().catch(e => { console.error('Seed-Fehler:', e); });
+}
+
+module.exports = { seedDB };
