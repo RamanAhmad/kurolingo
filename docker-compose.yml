@@ -1,0 +1,46 @@
+services:
+  app:
+    build: .
+    restart: unless-stopped
+    ports:
+      - "4000:4000"
+    environment:
+      NODE_ENV: production
+      PORT: 4000
+      # REQUIRED: set these via .env file or system env vars
+      JWT_SECRET: ${JWT_SECRET:?JWT_SECRET ist nicht gesetzt}
+      ALLOWED_ORIGINS: ${ALLOWED_ORIGINS:-https://kurdolingo.de}
+      TRUST_PROXY: "1"
+    volumes:
+      # Persistent data — survives container restarts and updates
+      - ./data/kurdolingo.db:/app/backend/kurdolingo.db
+      - ./data/uploads:/app/backend/uploads
+    healthcheck:
+      test: ["CMD", "node", "-e",
+        "require('http').get('http://localhost:4000/api/health', r => process.exit(r.statusCode===200?0:1)).on('error',()=>process.exit(1))"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 15s
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "5"
+
+  # Optional: nginx reverse proxy für HTTPS
+  # Kommentiere diesen Block ein wenn du Let's Encrypt-Zertifikate verwendest.
+  # nginx:
+  #   image: nginx:alpine
+  #   restart: unless-stopped
+  #   ports:
+  #     - "80:80"
+  #     - "443:443"
+  #   volumes:
+  #     - ./nginx.conf:/etc/nginx/conf.d/kurdolingo.conf:ro
+  #     - ./data/uploads:/app/backend/uploads:ro
+  #     - ./frontend/dist:/app/frontend/dist:ro
+  #     - /etc/letsencrypt:/etc/letsencrypt:ro
+  #   depends_on:
+  #     app:
+  #       condition: service_healthy

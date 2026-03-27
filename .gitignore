@@ -1,0 +1,41 @@
+# Dependencies
+node_modules/
+frontend/node_modules/
+backend/node_modules/
+
+# Build output — Railway builds this on the server
+frontend/dist/
+
+# Database — never commit the DB
+*.db
+*.db-shm
+*.db-wal
+*.db-bak-*
+
+# Environment variables — NEVER commit .env
+.env
+backend/.env
+
+# Uploaded media files
+backend/uploads/audio/*
+backend/uploads/images/*
+# Keep the empty folder structure
+!backend/uploads/audio/.gitkeep
+!backend/uploads/images/.gitkeep
+
+# Logs
+*.log
+npm-debug.log*
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Editor
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Claude internal
+.claude/
