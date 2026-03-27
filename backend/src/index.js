@@ -149,16 +149,11 @@ app.use((err, _req, res, _next) => {
 });
 
 // ── Start ─────────────────────────────────────────────────────────────────────
-initDB().then(() => {
-  app.listen(PORT, () => {
-    console.log(`\n🦅  Kurdolingo API  →  http://localhost:${PORT}`);
-    console.log(`   Health          →  http://localhost:${PORT}/api/health`);
-    console.log(`   Frontend        →  ${serveFrontend ? FRONTEND_DIST : 'Vite dev server (Port 3000)'}`);
-    console.log(`   Rate limiting   →  ${isDev ? 'OFF (dev mode)' : 'ON'}`);
-    console.log(`   Trust proxy     →  ${trustProxy === false ? 'disabled (dev)' : trustProxy}`);
-    console.log(`   HSTS            →  ${isDev ? 'OFF (dev)' : 'ON'}\n`);
-  });
-}).catch(err => {
+app.listen(PORT, '0.0.0.0', () => {
+  console.log(`🦅  Kurdolingo API  →  http://localhost:${PORT}`);
+});
+
+// DB async starten (blockiert nicht mehr)
+initDB().catch(err => {
   console.error('❌ Datenbankfehler beim Start:', err);
-  process.exit(1);
 });
