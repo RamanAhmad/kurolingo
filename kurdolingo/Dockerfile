@@ -4,17 +4,6 @@
 #  Multi-stage build:
 #    Stage 1 (builder): builds the React frontend with Vite
 #    Stage 2 (runner):  runs the Node.js backend, serves the built frontend
-#
-#  Usage:
-#    docker build -t kurdolingo .
-#    docker run -d \
-#      -p 4000:4000 \
-#      -e JWT_SECRET=$(openssl rand -hex 32) \
-#      -e NODE_ENV=production \
-#      -e ALLOWED_ORIGINS=https://kurdolingo.de \
-#      -v $(pwd)/data:/app/backend/kurdolingo.db \
-#      -v $(pwd)/uploads:/app/backend/uploads \
-#      kurdolingo
 # ────────────────────────────────────────────────────────────────────────────
 
 # ── Stage 1: Build frontend ──────────────────────────────────────────────────
@@ -22,9 +11,9 @@ FROM node:22-alpine AS builder
 
 WORKDIR /build
 
-# Install frontend deps first (layer cache)
+# Install frontend deps (npm install instead of npm ci — no lockfile required)
 COPY frontend/package*.json ./frontend/
-RUN cd frontend && npm ci
+RUN cd frontend && npm install
 
 # Copy frontend source and build
 COPY frontend/ ./frontend/
@@ -40,9 +29,9 @@ RUN addgroup -g 1001 kurdolingo && \
 
 WORKDIR /app
 
-# Install backend deps (production only)
+# Install backend deps (npm install instead of npm ci — no lockfile required)
 COPY backend/package*.json ./backend/
-RUN cd backend && npm ci --omit=dev
+RUN cd backend && npm install --omit=dev
 
 # Copy backend source
 COPY backend/src/ ./backend/src/
@@ -58,18 +47,11 @@ RUN mkdir -p ./backend/uploads/audio ./backend/uploads/images && \
 # Switch to non-root
 USER kurdolingo
 
-# Health check — Docker will restart container if API goes unresponsive
+# Health check
 HEALTHCHECK --interval=30s --timeout=10s --start-period=15s --retries=3 \
   CMD node -e "require('http').get('http://localhost:4000/api/health', r => process.exit(r.statusCode === 200 ? 0 : 1)).on('error', () => process.exit(1))"
 
 EXPOSE 4000
-
-# ── Environment variables (set at runtime, not build time) ───────────────────
-# JWT_SECRET      — REQUIRED in production
-# NODE_ENV        — should be "production"
-# ALLOWED_ORIGINS — comma-separated list of allowed frontend origins
-# TRUST_PROXY     — 1 if behind nginx/Cloudflare, 2 for double proxy
-# PORT            — default 4000
 
 ENV NODE_ENV=production
 
