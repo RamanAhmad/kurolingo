@@ -37,18 +37,18 @@ export default function CoursePage() {
   };
 
   return (
-    <div style={{ maxWidth: 720, margin: '0 auto', padding: '32px 20px' }}>
+    <div style={{ maxWidth: 720, margin: '0 auto', padding: '24px 16px' }}>
       {/* Header */}
       <div style={{
         background: 'linear-gradient(135deg, #0B9E88 0%, #064d40 100%)',
-        borderRadius: 20, padding: '32px 28px', color: '#fff', marginBottom: 28,
-        display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 16,
+        borderRadius: 20, padding: '24px 20px', color: '#fff', marginBottom: 28,
+        display: 'flex', flexDirection: 'column', gap: 16,
       }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
-          <span style={{ fontSize: 52, lineHeight: 1, filter: 'drop-shadow(0 5px 10px rgba(0,0,0,.28)) drop-shadow(0 2px 4px rgba(0,0,0,.18))' }}>{course.from_flag}</span>
-          <div>
-            <div style={{ fontSize: 22, fontWeight: 900, letterSpacing: '-.01em' }}>{course.name}</div>
-            <div style={{ fontSize: 14, opacity: .8, marginTop: 4 }}>
+          <span style={{ fontSize: 48, lineHeight: 1, filter: 'drop-shadow(0 5px 10px rgba(0,0,0,.28)) drop-shadow(0 2px 4px rgba(0,0,0,.18))', flexShrink: 0 }}>{course.from_flag}</span>
+          <div style={{ minWidth: 0 }}>
+            <div style={{ fontSize: 20, fontWeight: 900, letterSpacing: '-.01em', wordBreak: 'break-word' }}>{course.name}</div>
+            <div style={{ fontSize: 13, opacity: .8, marginTop: 4 }}>
               {course.dialect} · {course.difficulty} · {course.from_name}
             </div>
           </div>
@@ -56,7 +56,7 @@ export default function CoursePage() {
         <button
           className="btn btn-lg"
           onClick={handleStart}
-          style={{ background: '#fff', color: '#0B9E88', fontWeight: 800, border: 'none', boxShadow: '0 4px 0 rgba(0,0,0,.15)' }}
+          style={{ background: '#fff', color: '#0B9E88', fontWeight: 800, border: 'none', boxShadow: '0 4px 0 rgba(0,0,0,.15)', width: '100%' }}
         >
           {t('course.start')}
         </button>
@@ -70,7 +70,7 @@ export default function CoursePage() {
       )}
 
       {/* Stats */}
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 12, marginBottom: 28 }}>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(90px, 1fr))', gap: 12, marginBottom: 28 }}>
         {[
           { icon: '📚', val: course.units?.length ?? '—', label: t('course.units') },
           { icon: '📖', val: course.lesson_count  ?? '—', label: t('course.lessons') },
@@ -124,11 +124,11 @@ export default function CoursePage() {
         </>
       )}
 
-      <div style={{ marginTop: 28, display: 'flex', gap: 12 }}>
-        <button className="btn btn-primary btn-lg" onClick={handleStart}>
+      <div style={{ marginTop: 28, display: 'flex', flexDirection: 'column', gap: 10 }}>
+        <button className="btn btn-primary btn-lg" onClick={handleStart} style={{ width: '100%' }}>
           {t('course.start')}
         </button>
-        <button className="btn btn-ghost btn-lg" onClick={() => navigate(-1)}>
+        <button className="btn btn-ghost btn-lg" onClick={() => navigate(-1)} style={{ width: '100%' }}>
           {t('course.back')}
         </button>
       </div>
