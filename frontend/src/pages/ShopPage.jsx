@@ -197,7 +197,7 @@ export default function ShopPage() {
   ], [t]);
 
   return (
-    <div style={{ maxWidth: 740, margin: '0 auto', padding: '28px 20px' }}>
+    <div style={{ maxWidth: 740, margin: '0 auto', padding: '20px 16px' }}>
 
       {/* Header */}
       <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', marginBottom: 24, flexWrap: 'wrap', gap: 12 }}>

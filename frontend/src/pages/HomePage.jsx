@@ -61,19 +61,19 @@ export default function HomePage() {
 
   // If no course selected yet, show course picker
   if (!activeCourse) return (
-    <div style={{ maxWidth: 760, margin: '0 auto', padding: '32px 20px' }}>
+    <div style={{ maxWidth: 760, margin: '0 auto', padding: '20px 16px' }}>
       {/* Kurmanji-first hero */}
       <div style={{
-        textAlign: 'center', marginBottom: 32,
-        padding: '28px 20px',
+        textAlign: 'center', marginBottom: 24,
+        padding: '24px 16px',
         background: 'linear-gradient(135deg, var(--teal-xlt), rgba(6,214,160,.06))',
         borderRadius: 20, border: '1.5px solid rgba(13,158,136,.15)',
       }}>
         <div style={{ fontSize: 44, marginBottom: 10, filter: 'drop-shadow(0 4px 8px rgba(0,0,0,.2)) drop-shadow(0 2px 4px rgba(0,0,0,.12))' }}>🏔️</div>
-        <h2 style={{ fontSize: 24, fontWeight: 900, marginBottom: 6, color: 'var(--text-primary)' }}>
+        <h2 style={{ fontSize: 22, fontWeight: 900, marginBottom: 6, color: 'var(--text-primary)' }}>
           {t('home.welcome', {name: user?.name})} 👋
         </h2>
-        <p style={{ color: 'var(--teal-dk)', fontSize: 15, fontWeight: 600, maxWidth: 440, margin: '0 auto', lineHeight: 1.6 }}>
+        <p style={{ color: 'var(--teal-dk)', fontSize: 14, fontWeight: 600, maxWidth: 440, margin: '0 auto', lineHeight: 1.6 }}>
           {t('home.kurmanjiHero')}
         </p>
       </div>
@@ -81,23 +81,23 @@ export default function HomePage() {
       <p style={{ fontWeight: 800, fontSize: 16, color: 'var(--text-primary)', marginBottom: 6 }}>
         {t('home.iSpeak')}
       </p>
-      <p style={{ color: 'var(--text-muted)', marginBottom: 20, fontSize: 13 }}>
+      <p style={{ color: 'var(--text-muted)', marginBottom: 16, fontSize: 13 }}>
         {t('home.chooseLanguage')}
       </p>
 
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill,minmax(220px,1fr))', gap: 14 }}>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill,minmax(160px,1fr))', gap: 12 }}>
         {courses.map(c => (
           <div key={c.id} onClick={() => { setActiveCourse(c); loadProgress(c.id); }}
             className="card card-interactive"
-            style={{ padding: '20px 18px' }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 12 }}>
-              <span style={{ fontSize: 34, filter: 'drop-shadow(0 2px 4px rgba(0,0,0,.18)) drop-shadow(0 1px 2px rgba(0,0,0,.12))' }}>{c.from_flag}</span>
-              <div>
-                <div style={{ fontWeight: 900, fontSize: 15 }}>{c.from_name}</div>
-                <div style={{ fontSize: 12, color: 'var(--teal)', fontWeight: 700 }}>→ Kurmanji</div>
+            style={{ padding: '16px 14px' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 10 }}>
+              <span style={{ fontSize: 30, flexShrink: 0, filter: 'drop-shadow(0 2px 4px rgba(0,0,0,.18)) drop-shadow(0 1px 2px rgba(0,0,0,.12))' }}>{c.from_flag}</span>
+              <div style={{ minWidth: 0 }}>
+                <div style={{ fontWeight: 900, fontSize: 14, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{c.from_name}</div>
+                <div style={{ fontSize: 11, color: 'var(--teal)', fontWeight: 700 }}>→ Kurmanji</div>
               </div>
             </div>
-            <div style={{ fontSize: 12, color: 'var(--text-muted)', marginBottom: 10, lineHeight: 1.5 }}>{c.name}</div>
+            <div style={{ fontSize: 11, color: 'var(--text-muted)', marginBottom: 10, lineHeight: 1.5 }}>{c.name}</div>
             <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap' }}>
               <span className="badge badge-sun">{c.difficulty}</span>
               <span className="badge badge-gray">{t('home.lessons', {n: c.lesson_count})}</span>

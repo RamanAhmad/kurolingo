@@ -236,7 +236,7 @@ function CelebrityQuiz() {
           </div>
 
           {/* Antwort-Optionen */}
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10, marginBottom: 16 }}>
+          <div className="choice-grid-2col" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10, marginBottom: 16 }}>
             {(cel.options || []).map((opt, i) => {
               let bg = 'var(--surface)', border = 'var(--border)', color = 'var(--text-primary)', shadow = '0 2px 0 var(--stone-100)';
               if (selected) {
@@ -628,7 +628,7 @@ export default function KurdistanPage() {
   ];
 
   return (
-    <div style={{ maxWidth: 720, margin: '0 auto', padding: '28px 20px 80px' }}>
+    <div style={{ maxWidth: 720, margin: '0 auto', padding: '20px 16px 80px' }}>
 
       {/* Page Header */}
       <div style={{ marginBottom: 28 }}>

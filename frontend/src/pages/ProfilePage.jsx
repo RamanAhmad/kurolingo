@@ -123,7 +123,7 @@ export default function ProfilePage() {
   if (loading) return <Spinner text={t('profile.loading')} />;
 
   return (
-    <div style={{ maxWidth: 620, margin: '0 auto', padding: '28px 20px' }}>
+    <div style={{ maxWidth: 620, margin: '0 auto', padding: '20px 16px' }}>
 
       {/* ── Avatar + Name ── */}
       <div style={{ textAlign: 'center', marginBottom: 28 }}>
@@ -227,7 +227,7 @@ export default function ProfilePage() {
       </div>
 
       {/* ── Quick stats row ── */}
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', gap: 10, marginBottom: 20 }}>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(70px,1fr))', gap: 10, marginBottom: 20 }}>
         {[
           { icon: '🔥', val: displayUser?.streak ?? 0,    label: t('profile.streak'),     color: 'var(--sun)' },
           { icon: '⚡', val: totalXp,                     label: t('profile.xpTotal'),   color: 'var(--cyan)' },

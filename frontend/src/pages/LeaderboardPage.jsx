@@ -88,7 +88,7 @@ export default function LeaderboardPage() {
 
   // ── Render ──────────────────────────────────────────────────────────────
   return (
-    <div style={{ maxWidth: 640, margin: '0 auto', padding: '28px 20px' }}>
+    <div style={{ maxWidth: 640, margin: '0 auto', padding: '20px 16px' }}>
 
       {/* Header */}
       <div style={{ marginBottom: 24 }}>
@@ -99,7 +99,7 @@ export default function LeaderboardPage() {
       </div>
 
       {/* Filter bar */}
-      <div style={{ display: 'flex', gap: 10, marginBottom: 20, flexWrap: 'wrap' }}>
+      <div style={{ display: 'flex', gap: 10, marginBottom: 20, flexWrap: 'wrap', alignItems: 'stretch' }}>
         {/* Period toggle */}
         <div style={{
           display: 'flex', background: 'var(--stone-100)', borderRadius: 'var(--r-md)',
@@ -130,7 +130,7 @@ export default function LeaderboardPage() {
             value={pairId}
             onChange={e => setPairId(e.target.value)}
             style={{
-              flex: 1, minWidth: 160, padding: '9px 14px',
+              flex: 1, minWidth: 140, padding: '9px 14px',
               border: '1px solid var(--border)', borderRadius: 'var(--r-md)',
               fontFamily: 'var(--font)', fontSize: 14, fontWeight: 600,
               background: 'var(--white)', outline: 'none', cursor: 'pointer',
