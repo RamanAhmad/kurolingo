@@ -83,7 +83,7 @@ export default {
     loadError:      'Impossible de charger la leçon',
     check:          'Vérifier',
     next:           'Continuer →',
-    correct:        'Correct ! Harika ! 🎉',
+    correct:        'Correct ! Her bijî! 🎉',
     wrong:          'Mauvaise réponse',
     xpEarned:       '+{xp} XP gagnés',
     rightAnswer:    'Bonne réponse : {answer}',

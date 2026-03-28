@@ -84,7 +84,7 @@ export default {
     loadError:      'Could not load lesson',
     check:          'Check',
     next:           'Continue →',
-    correct:        'Correct! Harika! 🎉',
+    correct:        'Correct! Her bijî! 🎉',
     wrong:          'Wrong answer',
     xpEarned:       '+{xp} XP earned',
     rightAnswer:    'Correct: {answer}',

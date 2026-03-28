@@ -84,7 +84,7 @@ export default {
     loadError:      'بارگذاری درس ناموفق بود',
     check:          'بررسی',
     next:           '← ادامه',
-    correct:        'درست! Harika! 🎉',
+    correct:        'درست! Her bijî! 🎉',
     wrong:          'پاسخ اشتباه',
     xpEarned:       '+{xp} XP کسب شد',
     rightAnswer:    'پاسخ درست: {answer}',

@@ -84,7 +84,7 @@ export default {
     loadError:      'تعذّر تحميل الدرس',
     check:          'تحقق',
     next:           'التالي ←',
-    correct:        'صحيح! Harika! 🎉',
+    correct:        'صحيح! Her bijî! 🎉',
     wrong:          'إجابة خاطئة',
     xpEarned:       '+{xp} XP مكتسبة',
     rightAnswer:    'الإجابة الصحيحة: {answer}',

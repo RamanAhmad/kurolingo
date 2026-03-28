@@ -270,15 +270,18 @@ function AudioButton({ audioFile, ttsText, label }) {
       onClick={handlePlay}
       disabled={playing}
       style={{
-        background: playing ? '#097560' : isTTSMode ? '#6B48FF' : '#0B9E88',
-        border: 'none', borderRadius: 14, padding: '14px 22px', cursor: playing ? 'default' : 'pointer',
+        background: playing
+          ? (isTTSMode ? '#4a30cc' : '#097560')
+          : isTTSMode ? '#6B48FF' : '#0B9E88',
+        border: 'none', borderRadius: 16, padding: '15px 24px', cursor: playing ? 'default' : 'pointer',
         display: 'flex', alignItems: 'center', gap: 12, marginBottom: 20,
-        boxShadow: `0 4px 0 ${playing ? '#065a48' : isTTSMode ? '#4a30cc' : '#097560'}`,
+        boxShadow: `0 5px 0 ${playing ? (isTTSMode ? '#3920a0' : '#065a48') : isTTSMode ? '#4a30cc' : '#097560'}, 0 4px 16px ${isTTSMode ? 'rgba(107,72,255,.28)' : 'rgba(11,158,136,.28)'}`,
         fontFamily: 'var(--font)', fontSize: 15, fontWeight: 700, color: 'white',
-        transition: 'background .15s',
+        transition: 'background .15s, box-shadow .15s, transform .1s',
+        transform: playing ? 'translateY(2px)' : 'translateY(0)',
       }}
     >
-      {playing ? <SoundWaves /> : <span style={{ fontSize: 22 }}>{isTTSMode ? '🗣️' : '🔊'}</span>}
+      {playing ? <SoundWaves /> : <span style={{ fontSize: 24, filter: 'drop-shadow(0 2px 4px rgba(0,0,0,.25))' }}>{isTTSMode ? '🗣️' : '🔊'}</span>}
       <span>
         {playing
           ? t('lesson.playing')
@@ -483,7 +486,11 @@ function ExerciseRenderer({ ex, answered, lastCorrect, onSubmit, onNext, onLoseH
   }[ex.type] || ex.type;
 
   return (
-    <div ref={areaRef} style={{ background: 'var(--white)', borderRadius: 'var(--r-xl)', border: '1.5px solid var(--border)', padding: '28px 24px 24px', boxShadow: 'var(--shadow-sm)' }}>
+    <div ref={areaRef} style={{
+      background: 'var(--white)', borderRadius: 'var(--r-xl)',
+      border: '1.5px solid var(--border)', padding: '28px 24px 24px',
+      boxShadow: 'var(--shadow-lg)',
+    }}>
       <div style={{ fontSize: 11, fontWeight: 900, marginBottom: 16, color: 'var(--teal)', textTransform: 'uppercase', letterSpacing: '.09em', display: 'flex', alignItems: 'center', gap: 6 }}>
         <span style={{ width: 6, height: 6, borderRadius: '50%', background: 'var(--teal)', display: 'inline-block' }} />
         {typeLabel}
@@ -498,7 +505,7 @@ function ExerciseRenderer({ ex, answered, lastCorrect, onSubmit, onNext, onLoseH
           background: 'var(--stone-50)', borderRadius: 10, padding: '9px 14px',
           border: '1px solid var(--border)',
         }}>
-          <span style={{ fontSize: 15, flexShrink: 0 }}>💡</span>
+          <span style={{ fontSize: 17, flexShrink: 0, filter: 'drop-shadow(0 1px 3px rgba(0,0,0,.2))' }}>💡</span>
           <span>{ex.hint}</span>
         </div>
       )}
@@ -765,7 +772,7 @@ function TipIntro({ tip, lessonTitle, lessonEmoji, onContinue }) {
       alignItems: 'center', justifyContent: 'center',
       padding: '40px 20px', textAlign: 'center',
     }}>
-      <div style={{ fontSize: 64, marginBottom: 16, animation: 'bounce .8s ease' }}>{lessonEmoji}</div>
+      <div style={{ fontSize: 72, marginBottom: 20, animation: 'bounce .8s ease', filter: 'drop-shadow(0 6px 12px rgba(0,0,0,.22)) drop-shadow(0 2px 4px rgba(0,0,0,.14))' }}>{lessonEmoji}</div>
       <h2 style={{ fontSize: 24, fontWeight: 900, color: 'var(--text-primary)', marginBottom: 8 }}>
         {lessonTitle}
       </h2>
@@ -805,7 +812,7 @@ function GameOver({ navigate, endSession, lessonId }) {
       alignItems: 'center', justifyContent: 'center',
       padding: 'var(--sp-10) var(--sp-5)', textAlign: 'center',
     }}>
-      <div style={{ fontSize: 80, marginBottom: 'var(--sp-5)', animation: 'bounce .8s ease' }}>💔</div>
+      <div style={{ fontSize: 88, marginBottom: 'var(--sp-5)', animation: 'bounce .8s ease', filter: 'drop-shadow(0 8px 16px rgba(224,72,72,.35)) drop-shadow(0 3px 6px rgba(0,0,0,.2))' }}>💔</div>
       <h2 style={{ fontSize: 'var(--text-display)', fontWeight: 'var(--weight-black)', color: 'var(--red)', marginBottom: 'var(--sp-3)', letterSpacing: '-.02em' }}>
         {t('lesson.gameOver.title')}
       </h2>
@@ -865,13 +872,16 @@ function EndScreen({ session, navigate, completeLesson, activeCourse, lessonId }
   return (
     <div style={{ minHeight: '100vh', background: '#fff', display: 'flex', flexDirection: 'column',
                   alignItems: 'center', justifyContent: 'center', padding: '40px 20px', textAlign: 'center' }}>
-      <div style={{ fontSize: 80, marginBottom: 16, animation: 'bounce 1s ease' }}>🎉</div>
+      <div style={{ fontSize: 88, marginBottom: 20, animation: 'bounce 1s ease', filter: 'drop-shadow(0 8px 16px rgba(232,160,32,.35)) drop-shadow(0 3px 6px rgba(0,0,0,.2))' }}>🎉</div>
 
       {/* Stars */}
-      <div style={{ display: 'flex', gap: 6, marginBottom: 12, justifyContent: 'center' }}>
+      <div style={{ display: 'flex', gap: 8, marginBottom: 16, justifyContent: 'center' }}>
         {[1, 2, 3].map(i => (
           <span key={i} style={{
-            fontSize: 38, filter: i <= stars ? 'none' : 'grayscale(1) opacity(.3)',
+            fontSize: 42,
+            filter: i <= stars
+              ? 'drop-shadow(0 4px 8px rgba(232,160,32,.45)) drop-shadow(0 1px 3px rgba(0,0,0,.2))'
+              : 'grayscale(1) opacity(.3)',
             animation: i <= stars ? `starPop .4s ${i * 0.15}s ease both` : 'none',
           }}>⭐</span>
         ))}
@@ -879,19 +889,20 @@ function EndScreen({ session, navigate, completeLesson, activeCourse, lessonId }
 
       <div style={{ fontSize: 32, fontWeight: 900, color: '#0B9E88', marginBottom: 8 }}>{t('lesson.end.title')}</div>
       <div style={{ fontSize: 16, color: '#8A8580', marginBottom: 32 }}>{t('lesson.end.subtitle')}</div>
-      <div style={{ display: 'flex', gap: 20, justifyContent: 'center', marginBottom: 40, flexWrap: 'wrap' }}>
+      <div style={{ display: 'flex', gap: 16, justifyContent: 'center', marginBottom: 40, flexWrap: 'wrap' }}>
         {[
-          { icon: '⚡', val: `+${xpEarned} XP`, label: t('lesson.end.xp'),       color: '#0B9E88', bg: 'var(--teal-xlt)', border: 'rgba(11,158,136,.2)' },
-          { icon: '🎯', val: `${accuracy}%`,    label: t('lesson.end.accuracy'),  color: '#6B48FF', bg: 'var(--purple-lt)', border: 'rgba(107,72,255,.2)' },
-          { icon: '❤️', val: session.hearts,    label: t('lesson.end.hearts'),    color: '#D94040', bg: 'var(--red-lt)',    border: 'rgba(217,64,64,.2)'   },
-        ].map(({ icon, val, label, color, bg, border }) => (
+          { icon: '⚡', val: `+${xpEarned} XP`, label: t('lesson.end.xp'),       color: '#0B9E88', bg: 'var(--teal-xlt)', border: 'rgba(11,158,136,.25)', shadow: '0 8px 0 rgba(11,158,136,.15), var(--shadow-md)' },
+          { icon: '🎯', val: `${accuracy}%`,    label: t('lesson.end.accuracy'),  color: '#6B48FF', bg: 'var(--purple-lt)', border: 'rgba(107,72,255,.25)', shadow: '0 8px 0 rgba(107,72,255,.12), var(--shadow-md)' },
+          { icon: '❤️', val: session.hearts,    label: t('lesson.end.hearts'),    color: '#D94040', bg: 'var(--red-lt)',    border: 'rgba(217,64,64,.25)',   shadow: '0 8px 0 rgba(217,64,64,.12), var(--shadow-md)' },
+        ].map(({ icon, val, label, color, bg, border, shadow }) => (
           <div key={label} style={{
             background: bg, border: `2px solid ${border}`,
-            borderRadius: 20, padding: '22px 32px', minWidth: 110,
-            display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 4,
+            borderRadius: 24, padding: '22px 28px', minWidth: 110,
+            display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 6,
+            boxShadow: shadow,
           }}>
-            <div style={{ fontSize: 34, lineHeight: 1 }}>{icon}</div>
-            <div style={{ fontSize: 28, fontWeight: 900, color, lineHeight: 1.1 }}>{val}</div>
+            <div style={{ fontSize: 38, lineHeight: 1, filter: 'drop-shadow(0 3px 6px rgba(0,0,0,.2)) drop-shadow(0 1px 3px rgba(0,0,0,.15))' }}>{icon}</div>
+            <div style={{ fontSize: 28, fontWeight: 900, color, lineHeight: 1.1, marginTop: 2 }}>{val}</div>
             <div style={{ fontSize: 10, fontWeight: 800, color, opacity: .7,
                           textTransform: 'uppercase', letterSpacing: '.5px' }}>{label}</div>
           </div>

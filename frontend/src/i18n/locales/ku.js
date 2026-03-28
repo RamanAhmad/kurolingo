@@ -85,7 +85,7 @@ export default {
     loadError:      'Ders nehat barkirin',
     check:          'Kontrol bike',
     next:           'Pêştir →',
-    correct:        'Rast! Harika! 🎉',
+    correct:        'Rast! Her bijî! 🎉',
     wrong:          'Bersiva çewt',
     xpEarned:       '+{xp} XP qazanc',
     rightAnswer:    'Bersiva rast: {answer}',

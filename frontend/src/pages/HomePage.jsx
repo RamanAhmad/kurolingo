@@ -41,7 +41,7 @@ export default function HomePage() {
       onMouseEnter={e => { e.currentTarget.style.transform = 'translateY(-2px)'; e.currentTarget.style.boxShadow = '0 4px 16px rgba(255,153,64,.2)'; }}
       onMouseLeave={e => { e.currentTarget.style.transform = ''; e.currentTarget.style.boxShadow = ''; }}
     >
-      <span style={{ fontSize: 28, flexShrink: 0 }}>🔁</span>
+      <span style={{ fontSize: 30, flexShrink: 0, filter: 'drop-shadow(0 2px 5px rgba(232,160,32,.4)) drop-shadow(0 1px 2px rgba(0,0,0,.15))' }}>🔁</span>
       <div style={{ flex: 1 }}>
         <div style={{ fontWeight: 900, fontSize: 15, color: 'var(--sun-dk)' }}>
           {reviewDue} {t('home.reviewDue', {n: reviewDue})}
@@ -69,7 +69,7 @@ export default function HomePage() {
         background: 'linear-gradient(135deg, var(--teal-xlt), rgba(6,214,160,.06))',
         borderRadius: 20, border: '1.5px solid rgba(13,158,136,.15)',
       }}>
-        <div style={{ fontSize: 40, marginBottom: 10 }}>🏔️</div>
+        <div style={{ fontSize: 44, marginBottom: 10, filter: 'drop-shadow(0 4px 8px rgba(0,0,0,.2)) drop-shadow(0 2px 4px rgba(0,0,0,.12))' }}>🏔️</div>
         <h2 style={{ fontSize: 24, fontWeight: 900, marginBottom: 6, color: 'var(--text-primary)' }}>
           {t('home.welcome', {name: user?.name})} 👋
         </h2>
@@ -91,7 +91,7 @@ export default function HomePage() {
             className="card card-interactive"
             style={{ padding: '20px 18px' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 12 }}>
-              <span style={{ fontSize: 32 }}>{c.from_flag}</span>
+              <span style={{ fontSize: 34, filter: 'drop-shadow(0 2px 4px rgba(0,0,0,.18)) drop-shadow(0 1px 2px rgba(0,0,0,.12))' }}>{c.from_flag}</span>
               <div>
                 <div style={{ fontWeight: 900, fontSize: 15 }}>{c.from_name}</div>
                 <div style={{ fontSize: 12, color: 'var(--teal)', fontWeight: 700 }}>→ Kurmanji</div>
@@ -230,7 +230,7 @@ function CourseHome({ course, courses, onSwitch, progress, navigate, user, setAc
       <div className="hide-mobile">
         {/* Streak */}
         <div className="card" style={{ marginBottom: 'var(--sp-3)', display: 'flex', alignItems: 'center', gap: 'var(--sp-4)' }}>
-          <span style={{ fontSize: 40, lineHeight: 1 }}>🔥</span>
+          <span style={{ fontSize: 44, lineHeight: 1, filter: 'drop-shadow(0 4px 8px rgba(232,160,32,.4)) drop-shadow(0 2px 4px rgba(0,0,0,.18))' }}>🔥</span>
           <div>
             <div style={{ fontSize: 28, fontWeight: 'var(--weight-black)', color: 'var(--sun)', lineHeight: 1 }}>
               {user?.streak ?? 0}
@@ -250,7 +250,7 @@ function CourseHome({ course, courses, onSwitch, progress, navigate, user, setAc
               { icon: '✅', val: completedIds.size,                        label: t('home.completions'), color: 'var(--teal)' },
             ].map(({ icon, val, label, color }) => (
               <div key={label} style={{ background: 'var(--stone-100)', borderRadius: 12, padding: 12, textAlign: 'center' }}>
-                <div style={{ fontSize: 22 }}>{icon}</div>
+                <div style={{ fontSize: 24, filter: 'drop-shadow(0 2px 5px rgba(0,0,0,.2)) drop-shadow(0 1px 2px rgba(0,0,0,.12))' }}>{icon}</div>
                 <div style={{ fontSize: 20, fontWeight: 900, color, marginTop: 2 }}>{val.toLocaleString()}</div>
                 <div style={{ fontSize: 11, fontWeight: 700, color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '.3px' }}>{label}</div>
               </div>
@@ -322,12 +322,15 @@ function ContinueLearningButton({ units, progress, completedIds, navigate }) {
       onMouseLeave={e => { e.currentTarget.style.transform = ''; }}
     >
       <div style={{
-        width: 48, height: 48, borderRadius: 14,
+        width: 52, height: 52, borderRadius: 16,
         background: 'rgba(255,255,255,.2)', display: 'flex',
         alignItems: 'center', justifyContent: 'center',
-        fontSize: 26, flexShrink: 0,
+        fontSize: 28, flexShrink: 0,
+        boxShadow: 'inset 0 1px 0 rgba(255,255,255,.3)',
       }}>
-        {nextLesson.emoji || '📖'}
+        <span style={{ filter: 'drop-shadow(0 2px 5px rgba(0,0,0,.25)) drop-shadow(0 1px 2px rgba(0,0,0,.18))' }}>
+          {nextLesson.emoji || '📖'}
+        </span>
       </div>
       <div style={{ flex: 1, color: 'var(--white)' }}>
         <div style={{ fontSize: 11, fontWeight: 800, opacity: .7, textTransform: 'uppercase', letterSpacing: '.5px' }}>
@@ -378,18 +381,21 @@ function UnitSection({ unit, unitIndex, completedIds, unitCompletedCount, unitUn
         style={{
           background: unitUnlocked ? (unit.color || 'var(--teal)') : 'var(--stone-400)',
           color: 'var(--white)', borderRadius: 'var(--r-xl)',
-          padding: '16px 20px', marginBottom: 16,
+          padding: '18px 22px', marginBottom: 16,
           cursor: unitUnlocked ? 'pointer' : 'default',
           display: 'flex', flexDirection: 'column', gap: 10,
           opacity: unitUnlocked ? 1 : 0.75,
-          transition: 'opacity var(--dur-base)',
+          boxShadow: unitUnlocked
+            ? '0 4px 0 rgba(0,0,0,.18), var(--shadow-md)'
+            : '0 2px 0 rgba(0,0,0,.1)',
+          transition: 'opacity var(--dur-base), transform var(--dur-base) var(--ease), box-shadow var(--dur-base) var(--ease)',
         }}
       >
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
           <div>
             <div style={{ fontWeight: 900, fontSize: 17 }}>
               {!unitUnlocked && <span style={{ marginRight: 6, opacity: .7 }}>🔒</span>}
-              {unit.emoji} {unit.title_tr}
+              <span style={{ filter: 'drop-shadow(0 1px 3px rgba(0,0,0,.25))' }}>{unit.emoji}</span> {unit.title_tr}
             </div>
             <div style={{ fontSize: 13, opacity: .8, marginTop: 2 }}>{unit.title_ku}</div>
           </div>

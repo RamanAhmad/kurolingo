@@ -84,7 +84,7 @@ export default {
     loadError:      'Ders yüklenemedi',
     check:          'Kontrol Et',
     next:           'Devam Et →',
-    correct:        'Doğru! Harika! 🎉',
+    correct:        'Doğru! Her bijî! 🎉',
     wrong:          'Yanlış cevap',
     xpEarned:       '+{xp} XP kazanıldı',
     rightAnswer:    'Doğru cevap: {answer}',
@@ -110,7 +110,7 @@ export default {
       fill:    'Boşluğu doldur',
     },
     end: {
-      title:      'Harika!',
+      title:      'Her bijî!',
       subtitle:   'Ders tamamlandı!',
       xp:         'Deneyim',
       accuracy:   'Doğruluk',

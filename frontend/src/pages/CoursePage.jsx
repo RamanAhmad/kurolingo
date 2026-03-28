@@ -45,7 +45,7 @@ export default function CoursePage() {
         display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 16,
       }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
-          <span style={{ fontSize: 48, lineHeight: 1 }}>{course.from_flag}</span>
+          <span style={{ fontSize: 52, lineHeight: 1, filter: 'drop-shadow(0 5px 10px rgba(0,0,0,.28)) drop-shadow(0 2px 4px rgba(0,0,0,.18))' }}>{course.from_flag}</span>
           <div>
             <div style={{ fontSize: 22, fontWeight: 900, letterSpacing: '-.01em' }}>{course.name}</div>
             <div style={{ fontSize: 14, opacity: .8, marginTop: 4 }}>
@@ -76,9 +76,9 @@ export default function CoursePage() {
           { icon: '📖', val: course.lesson_count  ?? '—', label: t('course.lessons') },
           { icon: '💬', val: course.vocab_count   ?? '—', label: t('course.vocabCount') },
         ].map(({ icon, val, label }) => (
-          <div key={label} className="card" style={{ textAlign: 'center', padding: '18px 12px' }}>
-            <div style={{ fontSize: 28 }}>{icon}</div>
-            <div style={{ fontSize: 24, fontWeight: 900, color: 'var(--teal)', margin: '4px 0' }}>{val}</div>
+          <div key={label} className="card" style={{ textAlign: 'center', padding: '20px 12px', boxShadow: 'var(--shadow-md)' }}>
+            <div style={{ fontSize: 32, filter: 'drop-shadow(0 3px 6px rgba(0,0,0,.2)) drop-shadow(0 1px 3px rgba(0,0,0,.14))' }}>{icon}</div>
+            <div style={{ fontSize: 24, fontWeight: 900, color: 'var(--teal)', margin: '6px 0' }}>{val}</div>
             <div style={{ fontSize: 11, fontWeight: 800, color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '.5px' }}>{label}</div>
           </div>
         ))}
@@ -98,12 +98,15 @@ export default function CoursePage() {
                 display: 'flex', alignItems: 'center', gap: 14,
               }}>
                 <div style={{
-                  width: 40, height: 40, borderRadius: 12,
+                  width: 44, height: 44, borderRadius: 14,
                   background: unit.color || '#0B9E88',
                   display: 'flex', alignItems: 'center', justifyContent: 'center',
-                  flexShrink: 0, fontSize: 18,
+                  flexShrink: 0, fontSize: 20,
+                  boxShadow: '0 3px 0 rgba(0,0,0,.15), 0 2px 6px rgba(0,0,0,.12)',
                 }}>
-                  {unit.emoji || `${i + 1}`}
+                  <span style={{ filter: 'drop-shadow(0 1px 3px rgba(0,0,0,.25))' }}>
+                    {unit.emoji || `${i + 1}`}
+                  </span>
                 </div>
                 <div style={{ flex: 1 }}>
                   <div style={{ fontWeight: 800, fontSize: 14 }}>{unit.title_tr}</div>
