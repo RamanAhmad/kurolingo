@@ -146,9 +146,9 @@ function CourseHome({ course, courses, onSwitch, progress, navigate, user, setAc
   const nextUnitId = findNextLesson();
 
   return (
-    <div className="course-grid" style={{ maxWidth: 900, margin: '0 auto', padding: '24px 20px', display: 'grid', gridTemplateColumns: 'minmax(0,1fr) 300px', gap: 24 }}>
+    <div className="course-grid" style={{ maxWidth: 900, margin: '0 auto', padding: '24px 16px', display: 'grid', gridTemplateColumns: 'minmax(0,1fr) 300px', gap: 24 }}>
       {/* ── Course tree ── */}
-      <div>
+      <div style={{ minWidth: 0, overflow: 'hidden' }}>
         {/* Course header */}
         <div className="course-header" style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 20, flexWrap: 'wrap' }}>
           <span style={{ fontSize: 28 }}>{course.from_flag}</span>
@@ -395,10 +395,11 @@ function UnitSection({ unit, unitIndex, completedIds, unitCompletedCount, unitUn
         style={{
           background: unitUnlocked ? (unit.color || 'var(--teal)') : 'var(--stone-400)',
           color: 'var(--white)', borderRadius: 'var(--r-xl)',
-          padding: '18px 22px', marginBottom: 16,
+          padding: '18px 18px', marginBottom: 16,
           cursor: unitUnlocked ? 'pointer' : 'default',
           display: 'flex', flexDirection: 'column', gap: 10,
           opacity: unitUnlocked ? 1 : 0.75,
+          width: '100%', boxSizing: 'border-box',
           boxShadow: unitUnlocked
             ? '0 4px 0 rgba(0,0,0,.18), var(--shadow-md)'
             : '0 2px 0 rgba(0,0,0,.1)',
