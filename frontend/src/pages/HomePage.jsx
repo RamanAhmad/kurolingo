@@ -150,19 +150,21 @@ function CourseHome({ course, courses, onSwitch, progress, navigate, user, setAc
       {/* ── Course tree ── */}
       <div>
         {/* Course header */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 20, flexWrap: 'wrap' }}>
+        <div className="course-header" style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 20, flexWrap: 'wrap' }}>
           <span style={{ fontSize: 28 }}>{course.from_flag}</span>
           <div style={{ flex: 1, minWidth: 0 }}>
             <div style={{ fontWeight: 900, fontSize: 18 }}>{course.name}</div>
             <div style={{ fontSize: 13, color: 'var(--text-muted)' }}>Kurmanji · {course.difficulty}</div>
           </div>
-          <button className="btn btn-ghost btn-sm" onClick={onSwitch} style={{ marginLeft: 'auto' }}>{t('home.switchCourse')}</button>
+          <button className="btn btn-ghost btn-sm course-header-btn" onClick={onSwitch} style={{ marginLeft: 'auto' }}>{t('home.switchCourse')}</button>
         </div>
 
         {/* Mobile stats bar (visible only on mobile) */}
         <div className="show-mobile" style={{
-          display: 'none', overflowX: 'auto', gap: 8, marginBottom: 16,
-          padding: '2px 0', WebkitOverflowScrolling: 'touch',
+          display: 'none', overflowX: 'auto', overflowY: 'visible',
+          gap: 8, marginBottom: 16, marginLeft: -8, marginRight: -8,
+          padding: '2px 8px', WebkitOverflowScrolling: 'touch',
+          scrollbarWidth: 'none', msOverflowStyle: 'none',
         }}>
           {[
             { icon: '🔥', val: user?.streak ?? 0, color: 'var(--sun)' },
@@ -276,7 +278,19 @@ function CourseHome({ course, courses, onSwitch, progress, navigate, user, setAc
         </div>
       </div>
 
-      <style>{`@media(max-width:768px){.hide-mobile{display:none!important;}.show-mobile{display:flex!important;}.course-grid{grid-template-columns:1fr!important;padding:16px 12px!important;}}`}</style>
+      <style>{`
+        @media(max-width:768px){
+          .hide-mobile{display:none!important;}
+          .show-mobile{display:flex!important;}
+          .course-grid{grid-template-columns:1fr!important;padding:16px 12px!important;}
+          .course-header{flex-wrap:wrap!important;gap:8px!important;}
+          .course-header-btn{margin-left:0!important;width:100%!important;justify-content:center!important;}
+          .show-mobile::-webkit-scrollbar{display:none;}
+        }
+        @media(max-width:480px){
+          .course-grid{padding:12px 8px!important;}
+        }
+      `}</style>
     </div>
   );
 }

@@ -5,12 +5,29 @@ import { useStore } from '../store';
 import Spinner from '../components/ui/Spinner';
 import { useT } from '../i18n';
 
+// ── Global audio cleanup registry ─────────────────────────────────────────────
+const _activeAudio = { node: null };
+
+function stopAllAudio() {
+  if (_activeAudio.node) {
+    _activeAudio.node.pause();
+    _activeAudio.node.src = '';
+    _activeAudio.node = null;
+  }
+  if ('speechSynthesis' in window) {
+    window.speechSynthesis.cancel();
+  }
+}
+
 // ── Audio Player — NUR echte Dateien, kein TTS ───────────────────────────────
 function playFile(audioFile) {
-  if (!audioFile) return;
+  if (!audioFile) return null;
+  stopAllAudio();
   const url   = audioFile.startsWith('http') ? audioFile : `/uploads/audio/${audioFile}`;
   const audio = new Audio(url);
+  _activeAudio.node = audio;
   audio.play().catch(err => console.warn('Audio nicht abspielbar:', err.message));
+  audio.onended = () => { if (_activeAudio.node === audio) _activeAudio.node = null; };
   return audio;
 }
 
@@ -42,7 +59,7 @@ export default function LessonPage() {
         addToast(t('lesson.loadError'), 'err');
         navigate('/');
       });
-    return () => endSession();
+    return () => { stopAllAudio(); endSession(); };
   }, [id]);
 
   if (loading || !session) return <Spinner text={t('lesson.loading')} />;
@@ -137,7 +154,7 @@ export default function LessonPage() {
       </div>
 
       {/* Exercise */}
-      <div style={{ flex: 1, maxWidth: 600, margin: '0 auto', width: '100%', padding: '24px 20px 160px' }}>
+      <div className="lesson-content" style={{ flex: 1, maxWidth: 600, margin: '0 auto', width: '100%', padding: '24px 20px 160px' }}>
         <ExerciseRenderer
           key={ex.id}
           ex={ex}
@@ -179,7 +196,7 @@ function HeartsDisplay({ hearts, prevHearts }) {
 // ── TTS helper — Browser Web Speech API fallback ─────────────────────────────
 function speakTTS(text, lang = 'ku') {
   if (!('speechSynthesis' in window) || !text) return false;
-  window.speechSynthesis.cancel();
+  stopAllAudio();
   const utt = new SpeechSynthesisUtterance(text);
   // Kurmanji has no dedicated voice — use Turkish (closest phonetically)
   // or fall back to whatever is available
@@ -200,7 +217,20 @@ function AudioButton({ audioFile, ttsText, label }) {
   const t        = useT();
   const [playing, setPlaying] = useState(false);
   const audioRef  = useRef(null);
+  // TTS nur wenn KEINE echte Audiodatei vorhanden ist
   const hasTTS    = !audioFile && !!ttsText && 'speechSynthesis' in window;
+
+  // Cleanup beim Unmount (Seitenwechsel / Aufgabenwechsel)
+  useEffect(() => {
+    return () => {
+      if (audioRef.current) {
+        audioRef.current.pause();
+        audioRef.current.src = '';
+        audioRef.current = null;
+      }
+      if ('speechSynthesis' in window) window.speechSynthesis.cancel();
+    };
+  }, []);
 
   const playAudioFile = () => {
     if (audioRef.current) {
@@ -214,9 +244,8 @@ function AudioButton({ audioFile, ttsText, label }) {
     audio.play().catch(() => setPlaying(false));
     audio.onended = () => setPlaying(false);
     audio.onerror = () => {
-      // Audio file failed — fall through to TTS if text is available
+      // Audio file failed — kein TTS-Fallback, nur Status zurücksetzen
       setPlaying(false);
-      if (ttsText) speakTTS(ttsText);
     };
   };
 
@@ -375,15 +404,16 @@ function ExerciseRenderer({ ex, answered, lastCorrect, onSubmit, onNext, onLoseH
   // Auto-play audio when exercise loads (listen type only)
   useEffect(() => {
     if (ex.type === 'listen') {
-      const t = setTimeout(() => {
+      const timer = setTimeout(() => {
         if (ex.audio_file) {
           playFile(ex.audio_file);
         } else if (ex.tts_text || ex.answer) {
           speakTTS(ex.tts_text || ex.answer || '');
         }
       }, 450);
-      return () => clearTimeout(t);
+      return () => { clearTimeout(timer); stopAllAudio(); };
     }
+    return () => stopAllAudio();
   }, []);
 
   const shake = () => {
@@ -512,7 +542,7 @@ function ExerciseRenderer({ ex, answered, lastCorrect, onSubmit, onNext, onLoseH
 
       {/* ── Multiple Choice ── */}
       {ex.type === 'mc' && (
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10, marginTop: 12 }}>
+        <div className="choice-grid-2col" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10, marginTop: 12 }}>
           {(ex.options || []).map((opt, i) => {
             let cls = 'choice-btn';
             if (answered) {
@@ -716,7 +746,7 @@ function MatchPairs({ ex, matchSel, matchDone, matchWrong, matchFinished, matchR
 
   return (
     <div>
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10, marginTop: 8 }}>
+      <div className="choice-grid-2col" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10, marginTop: 8 }}>
         <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
           {lefts.map((val, i) => (
             <button key={i} className="choice-btn" style={tile(val)}

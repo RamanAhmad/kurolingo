@@ -204,7 +204,7 @@ export default function ReviewPage() {
 
           {/* MC */}
           {ex.type === 'mc' && (
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10, marginTop: 12 }}>
+            <div className="choice-grid-2col" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10, marginTop: 12 }}>
               {(ex.options || []).map((opt, i) => {
                 let cls = 'choice-btn';
                 if (answered) {
